@@ -1,3 +1,4 @@
+import bcrypt from "bcrypt";
 import User from "../models/User.js";
 
 // find all user
@@ -46,23 +47,39 @@ const deleteUser = async (req, res, next) => {
 // update user by email
 const updateUser = async (req, res, next) => {
     try {
+        // Not all fields included, only those that can be modified by users
+        const { username, profilePicture, password } = req.body;
+        
+        // create an object to hold only the fields to update
+        const fieldsToUpdate = {};
+
+        if (username) {
+            fieldsToUpdate.username = username;
+        }
+        if (profilePicture) {
+            fieldsToUpdate.profilePicture = profilePicture;
+        }
+        // If a new password is provided, rehash again
+        if (password) {
+            fieldsToUpdate.password = await bcrypt.hash(password, 10);
+        }
+
         const updatedUser = await User.findOneAndUpdate(
             { email: req.body.email },
-            {
-                username: req.body.username,
-                userType: req.body.userType,
-                password: req.body.password,
-                profilePicture: req.body.profilePicture,
-                streakCount: req.body.streakCount,
-                badges: req.body.badges,
-                friends: req.body.friends
-            },
+            { $set: fieldsToUpdate },
             { new: true }
         );
         if (!updatedUser) {
             return res.status(404).send("User not found");
         }
-        res.status(200).json(updatedUser);
+        // Password removed for the response
+        const userResponse = {
+            _id: updatedUser._id,
+            username: updatedUser.username,
+            email: updatedUser.email,
+            profilePicture: updatedUser.profilePicture
+        };
+        res.status(200).json(userResponse);
     } catch (err) {
         console.error('Error updating user:', err);
         res.status(500).json({ message: "Unable to update user", error: err.message });
