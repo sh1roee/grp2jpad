@@ -6,8 +6,7 @@ import {
     createArtwork,
     deleteArtwork,
     updateArtwork,
-    voteArtwork,
-    reportArtwork
+    voteArtwork
 } from '../controllers/artworkController.js';
 import { verifyToken } from '../middleware/auth.js'; // optional, for protected routes
 
@@ -23,6 +22,5 @@ router.post('/create', verifyToken, createArtwork);
 router.put('/update', verifyToken, updateArtwork);
 router.delete('/delete', verifyToken, deleteArtwork);
 router.post('/vote', verifyToken, voteArtwork);
-router.post('/report', verifyToken, reportArtwork);
 
 export default router;

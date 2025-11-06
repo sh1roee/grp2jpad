@@ -167,5 +167,5 @@ const getRegisteredUsers = async (req, res) => {
 };
 
 export { 
-    findAllUsers, findByUserEmail, deleteUser, updateUser, findCurrentUser, registerUser, loginUser, getRegisteredUsers 
+    findByUserEmail, deleteUser, updateUser, findCurrentUser, registerUser, loginUser, getRegisteredUsers 
 };

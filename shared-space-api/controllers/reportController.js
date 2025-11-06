@@ -1,4 +1,5 @@
 import Report from '../models/reportModel.js';
+import Artwork from '../models/artworkModel.js';
 
 // create report
 export const createReport = async (req, res) => {
@@ -16,6 +17,10 @@ export const createReport = async (req, res) => {
     });
 
     await report.save();
+
+    // Increment report count of artwork
+    await Artwork.findByIdAndUpdate(artworkID, { $inc: { reportCount: 1 } });
+
     res.status(201).json({ message: 'Report created successfully', report });
   } catch (error) {
     console.error('Error creating report:', error);

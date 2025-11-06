@@ -1,11 +1,12 @@
 import mongoose from "mongoose";
 
 const challengeSchema = new mongoose.Schema({
-  challengeID: { 
-    type: String, 
-    required: true, 
-    unique: true 
-  },
+  // Redundant to mongodb _id
+  // challengeID: { 
+  //   type: String, 
+  //   required: true, 
+  //   unique: true 
+  // },
   title: { 
     type: String, 
     required: true 
