@@ -43,7 +43,12 @@ const artworkSchema = new mongoose.Schema({
   reportCount: { 
     type: Number, 
     default: 0 
-  }
+  },
+  challengeId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Challenge',
+    default: null
+  },
 });
 
 const Artwork = mongoose.model("Artwork", artworkSchema);
